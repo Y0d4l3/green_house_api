@@ -1,18 +1,18 @@
+const Device = require("../models/device");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const Device = require("../models/device");
 
-exports.loginRequired = (req, res, next) => {
-  if (!req.user) {
-    return res.status(401).json("unauthorized");
+exports.isAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
   }
-  next();
+  return res.status(401).send("Not logged in");
 };
 
 exports.verifyToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) {
-    return res.status(401).json("no authorization header found");
+    return res.status(401).send("No authorization header found");
   }
 
   const token = authHeader.split(" ")[1];
@@ -20,11 +20,11 @@ exports.verifyToken = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const existingDevice = await Device.findById(decoded.deviceId);
     if (!existingDevice) {
-      return res.status(404).json("Device not found");
+      return res.status(404).send("Device not found");
     }
     req.deviceName = existingDevice.name;
     next();
   } catch (error) {
-    res.status(500).json(error);
+    return res.status(500).send(error);
   }
 };

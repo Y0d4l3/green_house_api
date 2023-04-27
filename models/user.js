@@ -8,13 +8,13 @@ const userSchema = mongoose.Schema({
   registrationDate: { type: Date, default: Date.now },
 });
 
-userSchema.methods.comparePassword = function (candidatePassword, callback) {
-  bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
-    if (err) {
-      return callback(err);
-    }
-    callback(null, isMatch);
-  });
+userSchema.methods.verifyPassword = async function verifyPassword(password) {
+  try {
+    const match = await bcrypt.compare(password, this.password);
+    return match;
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
 module.exports = mongoose.model("User", userSchema);

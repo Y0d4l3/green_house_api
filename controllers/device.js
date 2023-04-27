@@ -12,6 +12,16 @@ exports.getDevices = async (req, res) => {
   }
 };
 
+exports.getDevice = async (req, res) => {
+  const { name } = req.body;
+  try {
+    const device = await Device.findOne({ name: name, user: req.user.id });
+    res.status(200).json(device);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
 exports.createDevice = (req, res) => {
   const { name, location } = req.body;
   Device.findOne({ name: name, user: req.user.id })
