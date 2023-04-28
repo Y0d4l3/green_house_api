@@ -22,10 +22,10 @@ exports.getSensorData = async (req, res) => {
 };
 
 exports.createSensorData = (req, res) => {
-  const { value } = req.body;
-  Device.findOne({ apiToken: req.deviceName })
+  Device.findById(req.deviceId)
     .then(async (existingDevice) => {
       if (existingDevice) {
+        req.body.device = existingDevice;
         const newSensorData = new SensorData(req.body);
         newSensorData
           .save()
@@ -36,4 +36,5 @@ exports.createSensorData = (req, res) => {
       }
     })
     .catch((err) => res.status(500).json(err));
+  return res.status(500);
 };

@@ -30,23 +30,27 @@ router.post("/signup", function (req, res, next) {
       return res.status(500).json({ message: error });
     }
     if (info) {
-      return res.status(401).json({ message: info.message });
+      return res.status(401).json({ message: info });
     }
   })(req, res, next);
 });
 
 router.post("/signout", function (req, res, next) {
-  req.logout(function (error) {
-    if (error) {
-      return res.status(500).json({ message: error });
-    }
-    req.session.destroy(function (error) {
+  if (req.user) {
+    req.logout(function (error) {
       if (error) {
         return res.status(500).json({ message: error });
       }
+      req.session.destroy(function (error) {
+        if (error) {
+          return res.status(500).json({ message: error });
+        }
+      });
+      return res.status(200).json({ message: "signed out succesfull" });
     });
-    return res.status(200).json({ message: "signed out succesfull" });
-  });
+  } else {
+    return res.status(401).json({ message: "you are not signed in" });
+  }
 });
 
 module.exports = router;

@@ -27,7 +27,9 @@ exports.createDevice = (req, res) => {
   Device.findOne({ name: name, user: req.user.id })
     .then((existingDevice) => {
       if (existingDevice) {
-        return res.status(409).json("device with the same name already exists");
+        return res
+          .status(409)
+          .json({ message: "device with the same name already exists" });
       }
       const newDevice = new Device({
         name,
@@ -35,7 +37,7 @@ exports.createDevice = (req, res) => {
         user: req.user.id,
       });
       apiToken = jwt.sign({ deviceId: newDevice.id }, process.env.JWT_SECRET, {
-        expiresIn: "1d",
+        expiresIn: "365d",
       });
       newDevice.apiToken = apiToken;
       newDevice

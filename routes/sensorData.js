@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { verifyToken, isAuthenticated } = require("../middlewares/auth");
+const { isAuthenticated } = require("../middlewares/auth");
+const passport = require("passport");
 const {
   createSensorData,
   getSensorData,
@@ -8,7 +9,7 @@ const {
 
 router.post(
   "/sensorData",
-  verifyToken,
+  passport.authenticate("jwt", { session: false }),
   createSensorData,
   function (req, res) {}
 );
