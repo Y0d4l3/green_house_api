@@ -23,6 +23,8 @@ async function main() {
   await mongoose.connect(process.env.MONGODB_URI);
 }
 
+app.use(cors())
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
