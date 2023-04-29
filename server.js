@@ -24,13 +24,6 @@ async function main() {
 }
 
 app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
-);
-
-app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
