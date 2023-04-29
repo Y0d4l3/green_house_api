@@ -23,7 +23,10 @@ async function main() {
   await mongoose.connect(process.env.MONGODB_URI);
 }
 
-app.use(cors())
+app.use(cors({ 
+  origin: true, 
+  credentials: true 
+}));
 
 app.use(
   session({
