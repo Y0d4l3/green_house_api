@@ -36,8 +36,7 @@ app.use(
       autoRemove: "native",
     }),
     cookie: {
-      secure: false,
-      sameSite: "lax",
+      secure: true,
     },
   })
 );
