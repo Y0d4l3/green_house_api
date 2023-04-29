@@ -40,7 +40,6 @@ app.use(
     }),
     cookie: {
       secure: false,
-      sameSite: "lax",
     },
   })
 );
