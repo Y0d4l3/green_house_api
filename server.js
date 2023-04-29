@@ -39,7 +39,7 @@ app.use(
       autoRemove: "native",
     }),
     cookie: {
-      secure: true,
+      secure: auto,
     },
   })
 );
