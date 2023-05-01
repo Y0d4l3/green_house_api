@@ -32,6 +32,7 @@ exports.createSensorData = async (req, res) => {
     if (!device) {
       return res.status(409).json({ message: "Device not found" });
     }
+    req.body.device = device;
     const newSensorData = new SensorData(req.body);
     const savedSensorData = await newSensorData.save();
     if (!savedSensorData) {
