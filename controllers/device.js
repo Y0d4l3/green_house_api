@@ -4,7 +4,7 @@ require("dotenv").config();
 
 exports.getDevices = async (req, res) => {
   try {
-    const devices = Device.find({ user: req.user });
+    const devices = await Device.find({ user: req.user });
     if (!devices) {
       return res.status(409).json({ message: "No devices found" });
     }
