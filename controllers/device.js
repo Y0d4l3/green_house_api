@@ -10,7 +10,7 @@ exports.getDevices = async (req, res) => {
     }
     res.status(200).json(devices);
   } catch (err) {
-    res.status(500).json({ message: err });
+    res.status(500).json(err.message);
   }
 };
 
@@ -40,7 +40,7 @@ exports.createDevice = async (req, res) => {
     }
     res.status(201).json(savedDevice);
   } catch (err) {
-    res.status(500).json({ message: err });
+    res.status(500).json(err.message);
   }
 };
 
@@ -58,7 +58,7 @@ exports.updateDevice = async (req, res) => {
     }
     res.status(200).json(updatedDevice);
   } catch (err) {
-    res.status(500).json({ message: err });
+    res.status(500).json(err.message);
   }
 };
 
@@ -70,6 +70,6 @@ exports.deleteDevice = async (req, res) => {
     }
     res.status(200).json(deletedDevice);
   } catch (err) {
-    res.status(500).json({ message: err });
+    res.status(500).json(err.message);
   }
 };

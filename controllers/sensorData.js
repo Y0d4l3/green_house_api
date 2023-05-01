@@ -14,7 +14,7 @@ exports.getSensorData = async (req, res) => {
       return res.status(409).json({ message: "Device not found" });
     }
     const sensorData = await SensorData.find({
-      device: existingDevice,
+      device: device,
       timestamp: { $gte: twentyFourHoursAgo },
     });
     if (!sensorData) {
@@ -22,7 +22,7 @@ exports.getSensorData = async (req, res) => {
     }
     res.status(200).json(sensorData);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json(err.message);
   }
 };
 
@@ -41,6 +41,6 @@ exports.createSensorData = async (req, res) => {
     }
     res.status(201).json(savedSensorData);
   } catch (err) {
-    res.status(500).json({ message: err });
+    res.status(500).json(err.message);
   }
 };
