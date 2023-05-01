@@ -45,22 +45,23 @@ exports.updateDevice = async (req, res) => {
       Id: req.body.Id,
       user: req.user.id,
     },
-    { name: req.body.name, location: req.body.location }
-  )
-    .then(function () {
-      res.status(200).json({ message: "successfully updated" });
-    })
-    .catch(function (err) {
-      res.status(500).json(err);
-    });
+    { name: req.body.name, location: req.body.location },
+    function (err, docs) {
+      if (err) {
+        res.status(500).json(err);
+      } else {
+        res.status(200).json(docs);
+      }
+    }
+  );
 };
 
 exports.deleteDevice = async (req, res) => {
-  Device.findByIdAndDelete(req.body.Id)
-    .then(function () {
-      res.status(200).json({ message: "successfully deleted" });
-    })
-    .catch(function (err) {
+  Device.findByIdAndDelete(req.body.Id, function (err, docs) {
+    if (err) {
       res.status(500).json(err);
-    });
+    } else {
+      res.status(200).json(docs);
+    }
+  });
 };
