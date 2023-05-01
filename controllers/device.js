@@ -17,7 +17,7 @@ exports.getDevices = async (req, res) => {
 exports.createDevice = async (req, res) => {
   try {
     const existingDevice = await Device.findOne({
-      name: req.body.name,
+      name: req.body.deviceName,
       user: req.user.id,
     });
     if (existingDevice) {
@@ -26,8 +26,8 @@ exports.createDevice = async (req, res) => {
         .json({ message: "Device with that name already exists" });
     }
     const newDevice = new Device({
-      name: req.body.name,
-      location: req.body.location,
+      name: req.body.deviceName,
+      location: req.body.deviceLocation,
       user: req.user.id,
     });
     apiToken = jwt.sign({ deviceId: newDevice.id }, process.env.JWT_SECRET, {
@@ -48,10 +48,10 @@ exports.updateDevice = async (req, res) => {
   try {
     const updatedDevice = await Device.findOneAndUpdate(
       {
-        Id: req.body.Id,
+        Id: req.body.deviceId,
         user: req.user.id,
       },
-      { name: req.body.name, location: req.body.location }
+      { name: req.body.deviceName, location: req.body.deviceLocation }
     );
     if (!updatedDevice) {
       return res.status(409).json({ message: "Device not found" });
@@ -64,7 +64,7 @@ exports.updateDevice = async (req, res) => {
 
 exports.deleteDevice = async (req, res) => {
   try {
-    const deletedDevice = await Device.findByIdAndDelete(req.body.Id);
+    const deletedDevice = await Device.findByIdAndDelete(req.body.deviceId);
     if (!deletedDevice) {
       return res.status(409).json({ message: "Device not found" });
     }

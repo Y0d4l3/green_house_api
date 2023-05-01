@@ -6,7 +6,10 @@ const twentyFourHoursAgo = new Date(today.getTime() - 24 * 60 * 60 * 1000);
 
 exports.getSensorData = async (req, res) => {
   try {
-    const device = await Device.findOne({ name: deviceName, user: req.user });
+    const device = await Device.findOne({
+      Id: req.body.deviceId,
+      user: req.user,
+    });
     if (!device) {
       return res.status(409).json({ message: "Device not found" });
     }
