@@ -41,7 +41,7 @@ exports.createDevice = (req, res) => {
 
 exports.updateDevice = async (req, res) => {
   try {
-    const device = Device.findOneAndUpdate(
+    const device = await Device.findOneAndUpdate(
       {
         Id: req.body.Id,
         user: req.user.id,
@@ -56,7 +56,7 @@ exports.updateDevice = async (req, res) => {
 
 exports.deleteDevice = async (req, res) => {
   try {
-    const device = Device.findByIdAndDelete(req.body.Id);
+    const device = await Device.findByIdAndDelete(req.body.Id);
     res.status(200).json(device);
   } catch (err) {
     res.status(500).json(err);
