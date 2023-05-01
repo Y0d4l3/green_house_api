@@ -6,8 +6,7 @@ exports.getDevices = async (req, res) => {
   try {
     const devices = Device.find({ user: req.user.id });
     if (!devices) {
-      res.status(404).json({ message: "No devices found" });
-      return;
+      return res.status(409).json({ message: "No devices found" });
     }
     res.status(200).json(devices);
   } catch (err) {
@@ -22,8 +21,9 @@ exports.createDevice = async (req, res) => {
       user: req.user.id,
     });
     if (existingDevice) {
-      res.status(404).json({ message: "Device with that name already exists" });
-      return;
+      return res
+        .status(409)
+        .json({ message: "Device with that name already exists" });
     }
     const newDevice = new Device({
       name: req.body.name,
@@ -36,8 +36,7 @@ exports.createDevice = async (req, res) => {
     newDevice.apiToken = apiToken;
     const savedDevice = await newDevice.save();
     if (!savedDevice) {
-      res.status(404).json({ message: "Device could not be saved" });
-      return;
+      return res.status(404).json({ message: "Device could not be saved" });
     }
     res.status(201).json(savedDevice);
   } catch (err) {
@@ -55,8 +54,7 @@ exports.updateDevice = async (req, res) => {
       { name: req.body.name, location: req.body.location }
     );
     if (!updatedDevice) {
-      res.status(404).json({ message: "Device not found" });
-      return;
+      return res.status(409).json({ message: "Device not found" });
     }
     res.status(200).json(updatedDevice);
   } catch (err) {
@@ -68,8 +66,7 @@ exports.deleteDevice = async (req, res) => {
   try {
     const deletedDevice = await Device.findByIdAndDelete(req.body.Id);
     if (!deletedDevice) {
-      res.status(404).json({ message: "Device not found" });
-      return;
+      return res.status(409).json({ message: "Device not found" });
     }
     res.status(200).json(deletedDevice);
   } catch (err) {
