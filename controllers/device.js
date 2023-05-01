@@ -41,24 +41,31 @@ exports.createDevice = (req, res) => {
 
 exports.updateDevice = async (req, res) => {
   try {
-    const device = await Device.findOneAndUpdate(
+    const updatedDevice = await Device.findOneAndUpdate(
       {
         Id: req.body.Id,
         user: req.user.id,
       },
       { name: req.body.name, location: req.body.location }
     );
-    res.status(200).json(device);
+    if (!updatedDevice) {
+      res.status(404).json({ message: "Device not found" });
+      return;
+    }
+    res.status(200).json(updatedDevice);
   } catch (err) {
     res.status(500).json(err);
   }
 };
 
 exports.deleteDevice = async (req, res) => {
-  console.log(req.body);
   try {
-    const device = await Device.findByIdAndDelete(req.body.Id);
-    res.status(200).json(device);
+    const deletedDevice = await Device.findByIdAndDelete(req.body.Id);
+    if (!deletedDevice) {
+      res.status(404).json({ message: "Device not found" });
+      return;
+    }
+    res.status(200).json(deletedDevice);
   } catch (err) {
     res.status(500).json(err);
   }
