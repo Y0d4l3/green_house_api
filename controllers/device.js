@@ -56,7 +56,7 @@ exports.updateDevice = async (req, res) => {
 };
 
 exports.deleteDevice = async (req, res) => {
-  Device.findByIdAndRemove(req.body.Id)
+  Device.findByIdAndDelete(req.body.Id)
     .then(function () {
       res.status(200).json({ message: "successfully deleted" });
     })
