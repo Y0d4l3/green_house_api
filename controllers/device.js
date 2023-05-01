@@ -4,13 +4,13 @@ require("dotenv").config();
 
 exports.getDevices = async (req, res) => {
   try {
-    const devices = Device.find({ user: req.user.id });
+    const devices = Device.find({ user: req.user });
     if (!devices) {
       return res.status(409).json({ message: "No devices found" });
     }
     res.status(200).json(devices);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json({ message: err });
   }
 };
 
@@ -40,7 +40,7 @@ exports.createDevice = async (req, res) => {
     }
     res.status(201).json(savedDevice);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json({ message: err });
   }
 };
 
@@ -58,7 +58,7 @@ exports.updateDevice = async (req, res) => {
     }
     res.status(200).json(updatedDevice);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json({ message: err });
   }
 };
 
@@ -70,6 +70,6 @@ exports.deleteDevice = async (req, res) => {
     }
     res.status(200).json(deletedDevice);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json({ message: err });
   }
 };
