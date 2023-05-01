@@ -18,8 +18,8 @@ const lightReadingSchema = new mongoose.Schema({
 
 const sensorDataSchema = new mongoose.Schema({
   temperatureReading: { type: temperatureReadingSchema, required: true },
-  HumidityReading: { type: humidityReadingSchema, required: true },
-  LightReading: { type: lightReadingSchema, required: true },
+  humidityReading: { type: humidityReadingSchema, required: true },
+  lightReading: { type: lightReadingSchema, required: true },
   timestamp: { type: Date, default: Date.now },
   device: {
     type: mongoose.Schema.Types.ObjectId,
