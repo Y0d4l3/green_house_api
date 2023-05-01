@@ -45,6 +45,7 @@ exports.createDevice = async (req, res) => {
 };
 
 exports.updateDevice = async (req, res) => {
+  console.log(req.body);
   try {
     const updatedDevice = await Device.findOneAndUpdate(
       {
