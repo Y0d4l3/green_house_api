@@ -55,8 +55,8 @@ exports.updateDevice = async (req, res) => {
 };
 
 exports.deleteDevice = async (req, res) => {
+  console.log(req.body);
   try {
-    console.log(req);
     const device = await Device.findByIdAndDelete(req.body.Id);
     res.status(200).json(device);
   } catch (err) {
