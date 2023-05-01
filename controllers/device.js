@@ -40,28 +40,25 @@ exports.createDevice = (req, res) => {
 };
 
 exports.updateDevice = async (req, res) => {
-  Device.findOneAndUpdate(
-    {
-      Id: req.body.Id,
-      user: req.user.id,
-    },
-    { name: req.body.name, location: req.body.location },
-    function (err, docs) {
-      if (err) {
-        res.status(500).json(err);
-      } else {
-        res.status(200).json(docs);
-      }
-    }
-  );
+  try {
+    const device = Device.findOneAndUpdate(
+      {
+        Id: req.body.Id,
+        user: req.user.id,
+      },
+      { name: req.body.name, location: req.body.location }
+    );
+    res.status(200).json(device);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 };
 
 exports.deleteDevice = async (req, res) => {
-  Device.findByIdAndDelete(req.body.Id, function (err, docs) {
-    if (err) {
-      res.status(500).json(err);
-    } else {
-      res.status(200).json(docs);
-    }
-  });
+  try {
+    const device = Device.findByIdAndDelete(req.body.Id);
+    res.status(200).json(device);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 };
