@@ -22,7 +22,7 @@ exports.getSensorData = async (req, res) => {
     }
     res.status(200).json(sensorData);
   } catch (err) {
-    res.status(500).json({ message: err });
+    res.status(500).json({ message: err.message });
   }
 };
 
