@@ -1,3 +1,4 @@
+const { json } = require("body-parser");
 const mongoose = require("mongoose");
 const request = require("request");
 require("dotenv").config();
@@ -45,29 +46,23 @@ sensorDataSchema.post("save", async function (doc, next) {
       Math.abs(latestTemperatureReading - previousTemperatureReading) >
       process.env.TEMPERATURE_TRESHHOLD
     ) {
-      console.log({
-        deviceName: doc.device.name,
-        latestTemperatureReading: latestTemperatureReading,
-        previousTemperatureReading: previousTemperatureReading,
-      });
       request(
         process.env.IFTTT_URI,
         {
-          deviceName: doc.device.name,
-          latestTemperatureReading: latestTemperatureReading,
-          previousTemperatureReading: previousTemperatureReading,
+          json: {
+            deviceName: doc.device.name,
+            latestTemperatureReading: latestTemperatureReading,
+            previousTemperatureReading: previousTemperatureReading,
+          },
         },
         (err, res, body) => {
           if (err) {
             return console.log(err);
           }
-          console.log(body.url);
-          console.log(body.explanation);
         }
       );
       return next();
     }
-
     next();
   } catch (err) {
     console.error(err);
