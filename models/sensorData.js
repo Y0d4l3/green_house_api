@@ -33,7 +33,7 @@ const sensorDataSchema = new mongoose.Schema({
 sensorDataSchema.post("save", async function (doc, next) {
   console.log("test");
   try {
-    const latestSensorData = await sensorDataSchema
+    const latestSensorData = await this.constructor
       .find()
       .sort("-timestamp")
       .limit(2);
