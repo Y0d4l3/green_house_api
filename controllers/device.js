@@ -49,7 +49,7 @@ exports.updateDevice = async (req, res) => {
     const updatedDevice = await Device.findOneAndUpdate(
       {
         _id: req.body.deviceId,
-        user: req.user.id,
+        user: req.user,
       },
       { name: req.body.deviceName, location: req.body.deviceLocation }
     );
