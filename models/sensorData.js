@@ -31,9 +31,10 @@ const sensorDataSchema = new mongoose.Schema({
 });
 
 sensorDataSchema.post("save", async function (doc, next) {
+  console.log(doc);
   try {
     const latestSensorData = await this.constructor
-      .find()
+      .find({ device: doc.device })
       .sort("-timestamp")
       .limit(2);
     const latestTemperatureReading =
