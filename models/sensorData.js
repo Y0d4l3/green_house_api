@@ -46,23 +46,24 @@ sensorDataSchema.post("save", async function (doc, next) {
       Math.abs(latestTemperatureReading - previousTemperatureReading) >
       process.env.TEMPERATURE_TRESHHOLD
     ) {
-      request(
-        process.env.IFTTT_URI,
-        {
-          json: {
-            deviceName: doc.device.name,
-            latestTemperatureReading: latestTemperatureReading,
-            previousTemperatureReading: previousTemperatureReading,
-          },
+      const options = {
+        url: process.env.IFTTT_URI,
+        method: "POST",
+        json: {
+          deviceName: doc.device.name,
+          latestTemperatureReading: latestTemperatureReading,
+          previousTemperatureReading: previousTemperatureReading,
         },
-        (err, res, body) => {
-          if (err) {
-            return console.log(err);
-          }
-          console.log(res);
-          console.log(body);
+      };
+      request(options, (err, res, body) => {
+        if (err) {
+          console.error(err);
+        } else if (response.statusCode !== 200) {
+          console.error(response.statusCode);
+        } else {
+          console.log("IFTTT Webhook sent successfully!");
         }
-      );
+      });
       return next();
     }
     next();
