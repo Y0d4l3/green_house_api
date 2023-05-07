@@ -2,35 +2,6 @@ const mongoose = require("mongoose");
 const request = require("request");
 require("dotenv").config();
 
-sensorDataSchema.post("save", async function (next) {
-  try {
-    const latestSensorData = await sensorData
-      .find()
-      .sort("-timestamp")
-      .limit(2);
-    const latestTemperatureReading =
-      latestSensorData[0].temperatureReading.value;
-    const previousTemperatureReading =
-      latestSensorData[1].temperatureReading.value;
-
-    if (Math.abs(latestTemperatureReading - previousTemperatureReading) > 5) {
-      request(process.env.IFTTT_URI, { json: true }, (err, res, body) => {
-        if (err) {
-          return console.log(err);
-        }
-        console.log(body.url);
-        console.log(body.explanation);
-      });
-      return next();
-    }
-
-    next();
-  } catch (err) {
-    console.error(err);
-    next(err);
-  }
-});
-
 const temperatureReadingSchema = new mongoose.Schema({
   value: { type: Number, required: true },
   unit: { type: String, enum: ["C"], default: "C" },
@@ -60,3 +31,32 @@ const sensorDataSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("SensorData", sensorDataSchema);
+
+sensorDataSchema.post("save", async function (next) {
+  try {
+    const latestSensorData = await sensorData
+      .find()
+      .sort("-timestamp")
+      .limit(2);
+    const latestTemperatureReading =
+      latestSensorData[0].temperatureReading.value;
+    const previousTemperatureReading =
+      latestSensorData[1].temperatureReading.value;
+
+    if (Math.abs(latestTemperatureReading - previousTemperatureReading) > 5) {
+      request(process.env.IFTTT_URI, { json: true }, (err, res, body) => {
+        if (err) {
+          return console.log(err);
+        }
+        console.log(body.url);
+        console.log(body.explanation);
+      });
+      return next();
+    }
+
+    next();
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
