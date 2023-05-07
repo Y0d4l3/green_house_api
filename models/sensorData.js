@@ -47,7 +47,10 @@ sensorDataSchema.post("save", async function (doc, next) {
       process.env.TEMPERATURE_TRESHHOLD
     ) {
       const options = {
-        url: process.env.IFTTT_URI,
+        url: process.env.IFTTT_URI.replace(
+          "{event}",
+          process.env.IFTTT_EVENT
+        ).replace("{key}", process.env.IFTTT_KEY),
         method: "POST",
         json: {
           deviceName: doc.device.name,
