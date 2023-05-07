@@ -31,7 +31,6 @@ const sensorDataSchema = new mongoose.Schema({
 });
 
 sensorDataSchema.post("save", async function (doc, next) {
-  console.log("test");
   try {
     const latestSensorData = await this.constructor
       .find()
@@ -46,13 +45,20 @@ sensorDataSchema.post("save", async function (doc, next) {
       Math.abs(latestTemperatureReading - previousTemperatureReading) >
       process.env.TEMPERATURE_TRESHHOLD
     ) {
-      request(process.env.IFTTT_URI, { json: true }, (err, res, body) => {
-        if (err) {
-          return console.log(err);
+      request(
+        process.env.IFTTT_URI,
+        {
+          latestTemperatureReading: latestTemperatureReading,
+          previousTemperatureReading: previousTemperatureReading,
+        },
+        (err, res, body) => {
+          if (err) {
+            return console.log(err);
+          }
+          console.log(body.url);
+          console.log(body.explanation);
         }
-        console.log(body.url);
-        console.log(body.explanation);
-      });
+      );
       return next();
     }
 
