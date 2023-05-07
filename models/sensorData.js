@@ -32,7 +32,7 @@ const sensorDataSchema = new mongoose.Schema({
 
 const SensorData = mongoose.model("SensorData", sensorDataSchema);
 
-SensorData.post("save", async function (doc, next) {
+sensorDataSchema.post("save", async function (doc, next) {
   console.log("test");
   try {
     const latestSensorData = await SensorData.find()
