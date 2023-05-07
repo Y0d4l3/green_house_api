@@ -30,12 +30,11 @@ const sensorDataSchema = new mongoose.Schema({
   },
 });
 
-const SensorData = mongoose.model("SensorData", sensorDataSchema);
-
 sensorDataSchema.post("save", async function (doc, next) {
   console.log("test");
   try {
-    const latestSensorData = await SensorData.find()
+    const latestSensorData = await sensorDataSchema
+      .find()
       .sort("-timestamp")
       .limit(2);
     const latestTemperatureReading =
@@ -64,4 +63,4 @@ sensorDataSchema.post("save", async function (doc, next) {
   }
 });
 
-module.exports = SensorData;
+module.exports = mongoose.model("SensorData", sensorDataSchema);
