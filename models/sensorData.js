@@ -46,6 +46,12 @@ sensorDataSchema.post("save", async function (doc, next) {
       Math.abs(latestTemperatureReading - previousTemperatureReading) >
       process.env.TEMPERATURE_TRESHHOLD
     ) {
+      console.log(
+        process.env.IFTTT_URI.replace(
+          "{event}",
+          process.env.IFTTT_EVENT
+        ).replace("{key}", process.env.IFTTT_KEY)
+      );
       const options = {
         url: process.env.IFTTT_URI.replace(
           "{event}",
@@ -62,7 +68,6 @@ sensorDataSchema.post("save", async function (doc, next) {
         if (err) {
           console.error(err);
         }
-        console.log(res);
       });
       return next();
     }
