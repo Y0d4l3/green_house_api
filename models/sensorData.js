@@ -58,10 +58,6 @@ sensorDataSchema.post("save", async function (doc, next) {
       request(options, (err, res, body) => {
         if (err) {
           console.error(err);
-        } else if (response.statusCode !== 200) {
-          console.error(response.statusCode);
-        } else {
-          console.log("IFTTT Webhook sent successfully!");
         }
       });
       return next();
