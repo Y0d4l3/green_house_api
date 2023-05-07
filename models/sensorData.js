@@ -43,7 +43,10 @@ sensorDataSchema.post("save", async function (next) {
     const previousTemperatureReading =
       latestSensorData[1].temperatureReading.value;
 
-    if (Math.abs(latestTemperatureReading - previousTemperatureReading) > 5) {
+    if (
+      Math.abs(latestTemperatureReading - previousTemperatureReading) >
+      process.env.TEMPERATURE_TRESHHOLD
+    ) {
       request(process.env.IFTTT_URI, { json: true }, (err, res, body) => {
         if (err) {
           return console.log(err);
