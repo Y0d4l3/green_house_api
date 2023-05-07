@@ -30,8 +30,6 @@ const sensorDataSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("SensorData", sensorDataSchema);
-
 sensorDataSchema.post("save", async function (doc, next) {
   console.log("test");
   try {
@@ -64,3 +62,5 @@ sensorDataSchema.post("save", async function (doc, next) {
     next(err);
   }
 });
+
+module.exports = mongoose.model("SensorData", sensorDataSchema);
