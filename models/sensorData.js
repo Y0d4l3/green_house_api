@@ -59,6 +59,8 @@ sensorDataSchema.post("save", async function (doc, next) {
           if (err) {
             return console.log(err);
           }
+          console.log(res);
+          console.log(body);
         }
       );
       return next();
