@@ -20,13 +20,15 @@ app.use(morgan("combined"));
 if (process.env.NODE_ENV !== "production") dotenv.config();
 
 async function main() {
-  await mongoose.connect(process.env.MONGODB_URI);
+  await mongoose.connect(process.env.MONGODB_URL);
 }
 
-app.use(cors({ 
-  origin: true, 
-  credentials: true 
-}));
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 
 app.use(
   session({
