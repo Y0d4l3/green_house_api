@@ -46,11 +46,12 @@ sensorDataSchema.post("save", async function (doc, next) {
       Math.abs(latestTemperatureReading - previousTemperatureReading) >
       process.env.TEMPERATURE_TRESHHOLD
     ) {
+      const iftttUri =
+        "https://maker.ifttt.com/trigger/{event}/json/with/key/{key}";
       const options = {
-        url: process.env.IFTTT_URI.replace(
-          "{event}",
-          process.env.IFTTT_EVENT
-        ).replace("{key}", process.env.IFTTT_KEY),
+        url: iftttUri
+          .replace("{event}", process.env.IFTTT_EVENT)
+          .replace("{key}", process.env.IFTTT_KEY),
         method: "POST",
         json: {
           deviceName: doc.device.name,
